@@ -567,7 +567,7 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-  indexes.map((val) => arr = arr[val]);
+  indexes.map((val) => arr[val]);
   return arr;
 }
 
@@ -592,7 +592,9 @@ function getElementByIndexes(arr, indexes) {
  */
 function swapHeadAndTail(arr) {
   return arr.length % 2
-    ? arr.slice(Math.round(arr.length / 2)).concat(Math.round(arr.length / 2)).concat(arr.slice(0, arr.length / 2))
+    ? arr.slice(Math.round(arr.length / 2))
+      .concat(Math.round(arr.length / 2))
+      .concat(arr.slice(0, arr.length / 2))
     : arr.slice(arr.length / 2).concat(arr.slice(0, arr.length / 2));
 }
 

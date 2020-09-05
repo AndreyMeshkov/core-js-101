@@ -20,9 +20,11 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  this.width = width;
+  this.height = height;
 }
+Rectangle.prototype.getArea = () => this.width * this.height;
 
 
 /**
@@ -37,6 +39,22 @@ function Rectangle(/* width, height */) {
  */
 function getJSON(obj) {
   return JSON.stringify(obj);
+}
+
+
+/**
+ * Returns the object of specified type from JSON representation
+ *
+ * @param {Object} proto
+ * @param {string} json
+ * @return {object}
+ *
+ * @example
+ *    var r = fromJSON(Rectangle.prototype, '{"width":10, "height":20}');
+ *
+ */
+function fromJSON(proto, json) {
+  return Object.setPrototypeOf(JSON.parse(json), proto);
 }
 
 

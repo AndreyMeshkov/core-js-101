@@ -55,7 +55,8 @@ function parseDataFromIso8601(value) {
  */
 function isLeapYear(date) {
   const year = date.getFullYear();
-  return year % 400 === 0 || year % 100 !== 0 && (year % 4 === 0);
+  const checkOr = year % 400 === 0 || year % 100 !== 0;
+  return checkOr && (year % 4 === 0);
 }
 
 
@@ -80,8 +81,19 @@ function timeSpanToString(startDate, endDate) {
   let hour = endDate.getHours() - startDate.getHours();
   const msec = endDate.getMilliseconds() - startDate.getMilliseconds();
   const sec = endDate.getSeconds() - startDate.getSeconds();
-  day > 0 ? hour += 24 * day : hour;
-  return `${hour < 10 ? `0${hour}` : hour}:${min < 10 ? `0${min}` : min}:${sec < 10 ? `0${sec}` : sec}.${msec < 10 ? `00${msec}` : msec < 100 ? `0${msec}` : msec}`;
+  if (day > 0) hour += 24 * day;
+  const resHour = hour < 10 ? `0${hour}` : hour;
+  const resMin = min < 10 ? `0${min}` : min;
+  const resSec = sec < 10 ? `0${sec}` : sec;
+  let resMsec;
+  if (msec < 10) {
+    resMsec = `00${msec}`;
+  } else if (msec < 100) {
+    resMsec = `0${msec}`;
+  } else {
+    resMsec = msec;
+  }
+  return `${resHour}:${resMin}:${resSec}.${resMsec}`;
 }
 
 
@@ -104,10 +116,10 @@ function timeSpanToString(startDate, endDate) {
 function angleBetweenClockHands(date) {
   let hour = date.getUTCHours();
   const min = date.getUTCMinutes();
-  hour > 11 ? hour -= 12 : hour;
+  if (hour > 11) hour -= 12;
   let angle = Math.abs((hour * 60 + min) * 0.5 - 6 * min);
-  angle > 180 ? angle = 360 - angle : angle;
-  return angle * Math.PI / 180;
+  if (angle > 180) angle = 360 - angle;
+  return (angle * Math.PI) / 180;
 }
 
 

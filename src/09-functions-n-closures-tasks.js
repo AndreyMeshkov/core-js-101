@@ -45,7 +45,7 @@ function getComposition(f, g) {
  *
  */
 function getPowerFunction(exponent) {
-  return (x) => Math.pow(x, exponent);
+  return (x) => x ** exponent;
 }
 
 
@@ -63,8 +63,9 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-  const args = Array.prototype.slice.call(arguments);
-  return !args.length ? null : (x) => args.reduce((acc, cur, index, arr) => acc += cur * Math.pow(x, arr.length - index - 1), 0);
+  const args = Array.prototype.slice.call(...this);
+  return !args.length ? null : (x) => args
+    .reduce((acc, cur, index, arr) => acc + cur * x ** (arr.length - index - 1), 0);
 }
 
 
@@ -105,15 +106,17 @@ function memoize(func) {
  */
 function retry(func, attempts) {
   return () => {
-    while (attempts-- > 0) {
+    let result;
+    while (attempts - 1 > 0) {
       try {
-        return func();
+        result = func();
       } catch (err) {
         if (attempts === 0) {
           throw err;
         }
       }
     }
+    return result;
   };
 }
 
@@ -165,7 +168,7 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-  const args = Array.prototype.slice.call(arguments, 1);
+  const args = Array.prototype.slice.call(...fn, 1);
   return fn.bind(null, ...args);
 }
 
@@ -188,7 +191,8 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-  return () => startFrom++;
+  const start = startFrom;
+  return () => start + 1;
 }
 
 

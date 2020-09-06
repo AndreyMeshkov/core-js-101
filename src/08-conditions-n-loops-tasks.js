@@ -69,7 +69,7 @@ function getFactorial(n) {
  */
 function getSumBetweenNumbers(n1, n2) {
   let sum = 0;
-  for (let i = n1; i <= n2; i + 1) {
+  for (let i = n1; i <= n2; i += 1) {
     sum += i;
   }
   return sum;
@@ -160,8 +160,8 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-  return Math.sqrt((point.x - circle.center.x) ** 2)
-    + (point.y - circle.center.y) ** 2 < circle.radius;
+  return Math.sqrt((point.x - circle.center.x) ** 2
+    + (point.y - circle.center.y) ** 2) < circle.radius;
 }
 
 
@@ -265,7 +265,7 @@ function reverseInteger(num) {
 function isCreditCardNumber(ccn) {
   let sum = 0;
   const str = String(ccn);
-  for (let i = 1; i <= str.length; i + 1) {
+  for (let i = 1; i <= str.length; i += 1) {
     let num = Number(str[str.length - i]);
     if (!(i % 2)) num *= 2;
     if (num > 9) num -= 9;
@@ -368,10 +368,15 @@ function toNaryString(num, n) {
  */
 function getCommonDirectoryPath(pathes) {
   let result = '';
-  for (let i = 0; i < pathes[0].length; i + 1) {
-    for (let j = 1; j < pathes.length; j + 1) {
+  for (let i = 0; i < pathes[0].length; i += 1) {
+    for (let j = 1; j < pathes.length; j += 1) {
       if (pathes[0][i] !== pathes[j][i]) {
-        result = pathes[0].slice(0, [i]).slice(0, pathes[0].slice(0, [i]).lastIndexOf('/') + 1);
+        if (i === 0) {
+          i = pathes[0].length;
+        } else {
+          result = pathes[0].slice(0, [i]).slice(0, pathes[0].slice(0, [i]).lastIndexOf('/') + 1);
+          i = pathes[0].length;
+        }
       }
     }
   }
@@ -399,11 +404,11 @@ function getCommonDirectoryPath(pathes) {
  */
 function getMatrixProduct(m1, m2) {
   const result = [];
-  for (let i = 0; i < m1.length; i + 1) {
+  for (let i = 0; i < m1.length; i += 1) {
     result[i] = [];
-    for (let j = 0; j < m2[0].length; j + 1) {
+    for (let j = 0; j < m2[0].length; j += 1) {
       result[i][j] = 0;
-      for (let k = 0; k < m1[0].length; k + 1) {
+      for (let k = 0; k < m1[0].length; k += 1) {
         result[i][j] += m1[i][k] * m2[k][j];
       }
     }
@@ -443,7 +448,7 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-  for (let i = 0; i < 3; i + 1) {
+  for (let i = 0; i < 3; i += 1) {
     if (position[0][i] === position[1][i]
       && position[0][i] === position[2][i] && position[0][i] !== undefined) {
       return position[0][i];
